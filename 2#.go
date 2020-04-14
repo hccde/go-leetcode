@@ -65,14 +65,24 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	cf := 0
 	for {
 		if l1cur.Next == nil || l2cur.Next == nil {
+			// 最后一位相加 ugly
+			added := l1cur.Val + l2cur.Val + cf
+			node := &ListNode{
+				Val:  added % 10,
+				Next: nil,
+			}
+			if cur == nil {
+				cur = node
+				res = node
+			}else{
+				cur.Next = node
+			}
+
+
+			cf = added / 10
+			cur = node
+
 			if l1cur.Next == nil && l2cur.Next == nil {
-				added := l1cur.Val + l2cur.Val + cf
-				cur.Next = &ListNode{
-					Val:  added % 10,
-					Next: nil,
-				}
-				cf = added / 10
-				cur = cur.Next
 				if (cf == 1) { //overflow
 					cur.Next = &ListNode{
 						Val:  cf,
@@ -84,17 +94,17 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 				if l1cur.Next == nil {
 					remain = l2cur
 				}
-				node := &ListNode{
-					Val:  cf,
+				// golang尾递归?
+				last := addTwoNumbers(&ListNode{
+					Val: cf,
 					Next: nil,
-				}
-				last := addTwoNumbers(node, remain)
+				}, remain.Next)
+
 				if last != nil {
 					cur.Next = last
 				}
 
 			}
-
 			break;
 		} else {
 			added := l1cur.Val + l2cur.Val + cf
@@ -117,7 +127,7 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 }
 func main() {
 	l1 := GenerateNum("923")
-	l2 := GenerateNum("4")
+	l2 := GenerateNum("1177")
 	res := addTwoNumbers(l1, l2)
 	res.Print()
 }
