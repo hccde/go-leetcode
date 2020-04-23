@@ -59,11 +59,11 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	for i:=0;i<len(longer);{
 		if j == end-1 {
 			val1 := math.MaxInt64;val2 := math.MaxInt64;val:=0
-			if pointer1 < length1 {
-				val1 = longer[pointer1]
-			}
+			val1 = longer[pointer1]
 			if pointer2 < length2 {
 				val2 = shorter[pointer2]
+			}else{
+				val2 = longer[length1-1]
 			}
 			val = val1
 			vall := val2
@@ -81,7 +81,7 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 			if next > vall {
 				next = vall
 			}
-			fmt.Println(val,next)
+			//fmt.Println(val,next)
 			// cur是上一次的值
 			// val是当前值
 			// next 是下一个值
@@ -92,25 +92,31 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 				return (float64(val) + float64(next))/2
 			}
 		}
+		if pointer2 < length2 {
+			if longer[pointer1] > shorter[pointer2]{
+				//cur = shorter[pointer2]
+				if pointer2+1 <= length2 {pointer2+=1}
 
-		if longer[pointer1] > shorter[pointer2]{
-			//cur = shorter[pointer2]
-			if pointer2+1 < length2 {pointer2+=1}
-
+			}else{
+				//cur = longer[pointer1]
+				if pointer1+1 <= length1 {pointer1+=1}
+				i+=1
+			}
 		}else{
 			//cur = longer[pointer1]
-			if pointer1+1 < length1 {pointer1+=1}
+			if pointer1+1 <= length1 {pointer1+=1}
 			i+=1
 		}
+
+
 		j+=1;
 	}
 	return  0.0
 }
 
 func main() {
-
 	num1 := []int {1}
-	num2 :=  []int {2,3,4}
+	num2 :=  []int {2,3,6,7}
 	result := findMedianSortedArrays(num1,num2)
 	fmt.Println(result);
 }
