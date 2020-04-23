@@ -20,7 +20,7 @@ func longestPalindrome(s string) string {
 		secondPointer := topPointer -1
 
 		//judge
-		if secondPointer >= 0{ //todo 两个字符
+		if secondPointer >= 0{
 			if cur == stack[secondPointer] { // 发现回文转折 递增i
 				height := secondPointer
 				ii := i
@@ -47,33 +47,34 @@ func longestPalindrome(s string) string {
 			}
 			//相同串
 			if cur == stack[topPointer] {
-				height := topPointer
-				ii := i
-				newRes := ""
+				height := topPointer-1
+				ii := i+1
+				newRes := cur+stack[topPointer]
 				g1 := false
 				g2 := false
 				for{
-					if ii < length {
-						if charList[ii] == cur {
-							newRes = newRes+cur
+					//fmt.Println(ii,height)
+					if ii < length && height>=0 {
+						if charList[ii] == stack[height] {
+							newRes = stack[height] + newRes+charList[ii]
 							ii+=1
-						}else{
-							g2=true
-						}
-					}else{
-						g2=true
-					}
-					if height>=0{
-						if stack[height] == cur {
-							newRes = cur + newRes
 							height-=1;
 						}else{
+							g2=true
 							g1=true
 						}
-					}else {
-						g1 = true
+					}else{
+						if ii >= length {
+							g2 = true
+						}else{
+							ii+=1
+						}
+						if height < 0 {
+							g1 = true
+						}else{
+							height-=1
+						}
 					}
-
 
 					if g1 && g2  {
 						if len(res)<len(newRes) {
@@ -82,12 +83,6 @@ func longestPalindrome(s string) string {
 						break;
 					}
 
-					if height>=0 && ii<length && stack[height] != cur && charList[ii] != cur {
-						if len(res)<len(newRes) {
-							res = newRes
-						}
-						break
-					}
 				}
 			}
 		}
@@ -109,6 +104,6 @@ func longestPalindrome(s string) string {
 }
 
 func main() {
-	result := longestPalindrome("cabba"); // cabba
+	result := longestPalindrome("abaabaa"); // cabba
 	fmt.Println(result)
 }
