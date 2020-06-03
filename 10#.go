@@ -12,12 +12,12 @@ func isMatch(s string, p string) bool {
 	for {
 		if pIndex >= pLength || sIndex >= sLength{
 			if pIndex < pLength && hasStar{
+				fmt.Println(22)
 				index := 1;
 				pIndexCopy := pIndex;
 				for { // aaa a*a aacc .*cc
 					if pLength - index == pIndexCopy {
 						//fmt.Println(string(p[pIndexCopy]),string(s[sLength-index]))
-
 						if p[pIndexCopy] != s[sLength-index] {
 							return  false;
 						}else{
@@ -34,10 +34,7 @@ func isMatch(s string, p string) bool {
 						index+=1
 					}
 
-
 				}
-				//fmt.Println(33)
-				//return  false;
 			}
 			break;
 		}
@@ -70,7 +67,6 @@ func isMatch(s string, p string) bool {
 			lastChr := p[lastIndex];
 			if lastChr == 46 { // .* 匹配之后的所有
 				if pIndex+1 < pLength { // .*匹配全部之后仍有 例如 .*a
-					//return  false;
 					sIndex = sLength;
 					pIndex += 1;
 				}else{
