@@ -7,6 +7,6 @@ CURRENTNO := 10
 all: run
 
 run:
-    @go run
-# test:
-# 	@go test -v $(CURRENTNO)#.go $(CURRENTNO)#_test.go
+	@go run ${CURRENTNO}\#.go
+test:
+	@go test -v $(CURRENTNO)\#.go $(CURRENTNO)\#_test.go
